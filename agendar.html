@@ -35,9 +35,18 @@ h1{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font
 .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px;}
 .svc{border:1px solid var(--line);border-radius:2px;padding:16px;background:var(--graphite);cursor:pointer;transition:border-color .2s,transform .2s;}
 .svc:hover{border-color:var(--orange-fire);transform:translateY(-2px);}
+.svc.is-selected{border-color:var(--orange-fire);background:rgba(255,90,0,.08);}
 .svc__name{font-weight:700;font-size:.95rem;margin-bottom:8px;}
 .svc__badge{display:inline-block;font-size:.68rem;letter-spacing:.02em;text-transform:none;padding:3px 8px;border-radius:2px;font-weight:700;}
 .svc__badge--duration{background:rgba(255,212,0,.12);color:var(--gold);}
+.svc__badge--price{background:rgba(255,255,255,.08);color:var(--white);margin-left:6px;}
+.svc__qty{display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
+.qty-btn{width:32px;height:32px;border-radius:2px;border:1px solid var(--line);background:var(--graphite-2);color:var(--white);font-size:1.15rem;font-weight:700;cursor:pointer;line-height:1;transition:border-color .2s,color .2s;}
+.qty-btn:hover{border-color:var(--orange-fire);color:var(--gold);}
+.qty-value{font-weight:700;font-size:1rem;min-width:22px;text-align:center;}
+.svc-summary{margin-top:22px;border-top:1px solid var(--line);padding-top:18px;display:flex;flex-direction:column;gap:12px;}
+.svc-summary__text{font-size:.88rem;color:var(--white-60);line-height:1.5;}
+.svc-hint{color:var(--white-60);font-size:.88rem;margin:-16px 0 20px;line-height:1.5;}
 .svc__duration{display:flex;align-items:center;gap:8px;border:1px solid var(--line);padding:14px 16px;border-radius:2px;margin-bottom:16px;background:var(--graphite);}
 .svc__duration svg{width:18px;height:18px;flex-shrink:0;color:var(--gold);}
 .svc__duration div strong{display:block;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--white-60);font-weight:700;margin-bottom:2px;}
@@ -90,19 +99,27 @@ input,.field{width:100%;padding:12px 14px;background:var(--graphite);border:1px 
   <h1>Agendar horário</h1>
   <p class="sub">Escolha o serviço e o horário de entrada do veículo — todo o agendamento é feito direto aqui pelo site. Atendemos de segunda a sexta das 13h às 16h e aos sábados das 9h às 12h. Cada horário atende 1 veículo por vez; a duração de cada serviço varia conforme o trabalho e pode se estender além do horário de entrada — combinamos a retirada com você.</p>
 
-  <!-- ETAPA 1: serviço -->
+  <!-- ETAPA 1: serviços (o cliente pode escolher mais de um) -->
   <div class="step is-active" id="step-service">
+    <p class="svc-hint">Você pode escolher mais de um serviço — use os botões <strong>+</strong> e <strong>−</strong> em cada card para adicionar quantos precisar (ex.: 2 lavagens de veículos diferentes na mesma entrada).</p>
     <div class="card-grid" id="serviceList"></div>
+    <div class="svc-summary">
+      <div class="svc-summary__text" id="svcSummaryText">Nenhum serviço selecionado</div>
+      <button class="btn btn--primary" id="continueBtn" disabled>Continuar</button>
+    </div>
   </div>
 
   <!-- ETAPA 2a: agendamento no site (data + slot) -->
   <div class="step" id="step-site">
-    <button class="back" data-back>&larr; Trocar serviço</button>
-    <label>Serviço selecionado</label>
+    <button class="back" data-back>&larr; Trocar serviços</button>
+    <label>Serviços selecionados</label>
     <div class="field" id="siteServiceLabel"></div>
     <div class="svc__duration" id="siteServiceDuration">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
       <div><strong>Duração estimada</strong><span id="siteServiceDurationText"></span></div>
+    </div>
+    <div class="notice" id="multiServiceNotice" style="display:none;">
+      Como você escolheu mais de um serviço, o tempo total de permanência do veículo pode ser maior — combinamos o horário de retirada com você pelo WhatsApp.
     </div>
     <label for="date">Data</label>
     <input type="date" id="date">
@@ -153,17 +170,19 @@ input,.field{width:100%;padding:12px 14px;background:var(--graphite);border:1px 
  * clicar em "Avisar pelo WhatsApp" para a Phoenix ficar sabendo.
  * =======================================================*/
 const SERVICES = [
-  { id:'lavagem-trad-hatch-sedan-pequeno', name:'Lavagem Tradicional — Hatch / Sedã Pequeno', durationLabel:'3h – 4h30' },
-  { id:'lavagem-trad-sedan-grande-picape-media', name:'Lavagem Tradicional — Sedã Grande / Picape Média', durationLabel:'3h – 4h30' },
-  { id:'lavagem-trad-suv-camionete', name:'Lavagem Tradicional — SUV / Camionete Grande', durationLabel:'3h – 4h30' },
-  { id:'lavagem-comercial-cera', name:'Lavagem Comercial com Cera', durationLabel:'Duração a confirmar' },
-  { id:'lavagem-comercial-descontaminacao-selante', name:'Lavagem Comercial com Descontaminação e Selante', durationLabel:'4h – 6h' },
-  { id:'lavagem-comercial-descontaminacao-encerramento', name:'Lavagem Comercial com Descontaminação e Encerramento', durationLabel:'Duração a confirmar' },
-  { id:'higienizacao-interna-tecido', name:'Higienização Interna — Estofamento em Tecido', durationLabel:'1 a 2 dias (conforme o nível de sujidade)' },
-  { id:'higienizacao-interna-couro', name:'Higienização Interna — Estofamento em Couro', durationLabel:'5h – 7h' },
-  { id:'combo-bronze', name:'Combo Bronze — Lavagem Tradicional + Higienização Interna', durationLabel:'Duração a confirmar' },
-  { id:'combo-prata', name:'Combo Prata — Lavagem Comercial + Higienização + Detalhamento', durationLabel:'Duração a confirmar' },
-  { id:'combo-ouro', name:'Combo Ouro — Lavagem Comercial + Higienização de Interiores', durationLabel:'Duração a confirmar' },
+  { id:'lavagem-trad-hatch-sedan-pequeno', name:'Lavagem Tradicional — Hatch / Sedã Pequeno', durationLabel:'3h – 4h30', price:80.00 },
+  { id:'lavagem-trad-sedan-grande-picape-media', name:'Lavagem Tradicional — Sedã Grande / Picape Média', durationLabel:'3h – 4h30', price:100.00 },
+  { id:'lavagem-trad-suv-camionete', name:'Lavagem Tradicional — SUV / Camionete Grande', durationLabel:'3h – 4h30', price:100.00 },
+  { id:'lavagem-comercial-cera', name:'Lavagem Comercial com Cera', durationLabel:'Duração a confirmar', price:200.00 },
+  { id:'lavagem-comercial-descontaminacao-selante', name:'Lavagem Comercial com Descontaminação e Selante', durationLabel:'4h – 6h', price:170.00 },
+  { id:'lavagem-comercial-descontaminacao-encerramento', name:'Lavagem Comercial com Descontaminação e Encerramento', durationLabel:'Duração a confirmar', price:140.00 },
+  { id:'higienizacao-interna-tecido', name:'Higienização Interna — Estofamento em Tecido', durationLabel:'1 a 2 dias (conforme o nível de sujidade)', price:520.00 },
+  { id:'higienizacao-interna-couro', name:'Higienização Interna — Estofamento em Couro', durationLabel:'5h – 7h', price:420.00 },
+  { id:'combo-bronze', name:'Combo Bronze — Lavagem Tradicional + Higienização Interna', durationLabel:'Duração a confirmar', price:550.00 },
+  { id:'combo-prata', name:'Combo Prata — Lavagem Comercial + Higienização + Detalhamento', durationLabel:'Duração a confirmar', price:600.00 },
+  { id:'combo-ouro', name:'Combo Ouro — Lavagem Comercial + Higienização de Interiores', durationLabel:'Duração a confirmar', price:650.00 },
+  { id:'vitrificacao-plastico-ext-int', name:'Vitrificação de Plástico Externo e Interno', durationLabel:'Duração a confirmar', price:149.90 },
+  { id:'revitalizacao-plastico-condicionador', name:'Revitalização de Plástico com Condicionador para Plástico', durationLabel:'Duração a confirmar', price:129.90 },
 ];
 /* Capacidade única: 1 veículo por horário de entrada, em todos os serviços —
  * é uma baia só. Os horários são gerados a partir do EXPEDIENTE abaixo e
@@ -214,19 +233,57 @@ function countConfirmed(date, slotTime){
   return getAppointments().filter(a=>a.date===date && a.slotTime===slotTime && a.status==='confirmado').length;
 }
 
-let state = { service:null, slot:null };
+/* state.services guarda a quantidade escolhida de cada serviço: { [id]: qty }.
+ * Isso permite ao cliente escolher mais de 1 lavagem (ou combinar serviços
+ * diferentes) numa mesma entrada, antes de avançar para data/horário. */
+let state = { services:{}, selectedItems:[], slot:null };
 
 function renderServices(){
   const list = document.getElementById('serviceList');
   list.innerHTML='';
   SERVICES.forEach(s=>{
+    const qty = state.services[s.id] || 0;
     const el=document.createElement('div');
-    el.className='svc';
+    el.className='svc'+(qty>0?' is-selected':'');
     el.innerHTML = `<div class="svc__name">${s.name}</div>
-      <span class="svc__badge svc__badge--duration">⏱ ${s.durationLabel}</span>`;
-    el.onclick=()=>selectService(s);
+      <span class="svc__badge svc__badge--duration">⏱ ${s.durationLabel}</span>
+      ${s.price!=null ? `<span class="svc__badge svc__badge--price">R$ ${s.price.toFixed(2).replace('.',',')}</span>` : ''}
+      <div class="svc__qty">
+        <button type="button" class="qty-btn qty-minus" aria-label="Remover ${s.name}">−</button>
+        <span class="qty-value">${qty}</span>
+        <button type="button" class="qty-btn qty-plus" aria-label="Adicionar ${s.name}">+</button>
+      </div>`;
+    const qtyEl = el.querySelector('.qty-value');
+    el.querySelector('.qty-minus').onclick=()=>changeQty(s,-1,el,qtyEl);
+    el.querySelector('.qty-plus').onclick=()=>changeQty(s,1,el,qtyEl);
     list.appendChild(el);
   });
+  updateSummary();
+}
+
+function changeQty(s, delta, el, qtyEl){
+  const next = Math.max(0, (state.services[s.id]||0) + delta);
+  if (next === 0) delete state.services[s.id]; else state.services[s.id] = next;
+  qtyEl.textContent = next;
+  el.classList.toggle('is-selected', next>0);
+  updateSummary();
+}
+
+function getSelectedServicesList(){
+  return Object.entries(state.services).map(([id,qty])=>({service:SERVICES.find(s=>s.id===id), qty}));
+}
+
+function formatServicesLabel(items, sep){
+  return items.map(i => i.qty>1 ? `${i.qty}× ${i.service.name}` : i.service.name).join(sep);
+}
+
+function updateSummary(){
+  const items = getSelectedServicesList();
+  const total = items.reduce((sum,i)=>sum+i.qty,0);
+  document.getElementById('svcSummaryText').textContent = total===0
+    ? 'Nenhum serviço selecionado'
+    : `${total} serviço${total>1?'s':''} selecionado${total>1?'s':''}: ${formatServicesLabel(items, ' + ')}`;
+  document.getElementById('continueBtn').disabled = total===0;
 }
 
 function goToStep(id){
@@ -234,17 +291,20 @@ function goToStep(id){
   document.getElementById(id).classList.add('is-active');
 }
 
-function selectService(s){
-  state.service = s;
-  document.getElementById('siteServiceLabel').textContent = s.name;
-  document.getElementById('siteServiceDurationText').textContent = s.durationLabel;
+document.getElementById('continueBtn').onclick = ()=>{
+  const items = getSelectedServicesList();
+  if (items.length===0) return;
+  state.selectedItems = items;
+  document.getElementById('siteServiceLabel').innerHTML = formatServicesLabel(items, '<br>');
+  document.getElementById('siteServiceDurationText').textContent = items.map(i=>i.service.durationLabel).join(' · ');
+  document.getElementById('multiServiceNotice').style.display = items.length>1 ? 'block' : 'none';
   const dateInput = document.getElementById('date');
   dateInput.min = new Date().toISOString().slice(0,10);
   dateInput.value = dateInput.min;
   renderSlots();
   dateInput.onchange = renderSlots;
   goToStep('step-site');
-}
+};
 
 function renderSlots(){
   const date = document.getElementById('date').value;
@@ -297,17 +357,21 @@ document.getElementById('confirmBtn').onclick = ()=>{
   }
 
   // Sem etapa de pagamento: o agendamento já nasce confirmado.
-  const appointment = { date, slotTime: state.slot, serviceId: state.service.id, name, phone, status:'confirmado' };
+  const appointment = {
+    date, slotTime: state.slot,
+    services: state.selectedItems.map(i=>({id:i.service.id, qty:i.qty})),
+    name, phone, status:'confirmado'
+  };
   saveAppointment(appointment);
 
   const [y,m,d] = date.split('-');
   document.getElementById('confirmText').textContent =
-    `${state.service.name} — entrada em ${d}/${m}/${y} às ${state.slot}. Duração estimada: ${state.service.durationLabel}.`;
+    `${formatServicesLabel(state.selectedItems, ', ')} — entrada em ${d}/${m}/${y} às ${state.slot}.`;
   document.getElementById('ownerNotifyLink').href = buildOwnerNotificationUrl(appointment);
   goToStep('step-confirm');
 };
 
-document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>goToStep('step-service'));
+document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{ renderServices(); goToStep('step-service'); });
 
 /* =========================================================
  * NOTIFICAÇÃO DA PHOENIX APÓS AGENDAMENTO PELO SITE
@@ -316,19 +380,27 @@ document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>goToStep('step
  * quem decide enviar é o cliente, clicando no botão. É esta
  * etapa que substitui o pagamento de adiantamento via PIX.
  * =======================================================*/
-function buildOwnerNotificationMessage({ name, phone, serviceId, date, slotTime }){
-  const service = SERVICES.find(s=>s.id===serviceId);
+function buildOwnerNotificationMessage({ name, phone, services, date, slotTime }){
   const [y,m,d] = date.split('-');
+  const linhasServicos = services.map(({id,qty})=>{
+    const s = SERVICES.find(x=>x.id===id);
+    const nome = s ? s.name : id;
+    const dur = s ? s.durationLabel : 'a confirmar';
+    const prefixo = qty>1 ? `${qty}× ` : '';
+    const precoTxt = s && s.price!=null ? ` — R$ ${s.price.toFixed(2).replace('.',',')}${qty>1?` cada (total R$ ${(s.price*qty).toFixed(2).replace('.',',')})`:''}` : '';
+    return `• ${prefixo}${nome} (⏱ ${dur})${precoTxt}`;
+  });
   const linhas = [
     'Olá! Novo agendamento realizado pelo site.',
     '',
     `👤 Cliente: ${name}`,
     `📱 WhatsApp: ${phone}`,
     '',
-    `🔥 Serviço: ${service ? service.name : serviceId}`,
+    '🔥 Serviços:',
+    ...linhasServicos,
+    '',
     `📅 Data de entrada: ${d}/${m}/${y}`,
     `🕐 Horário de entrada: ${slotTime}`,
-    `⏱ Duração estimada: ${service ? service.durationLabel : 'a confirmar'}`,
     '',
     'O agendamento foi realizado pelo sistema do site.',
   ];
