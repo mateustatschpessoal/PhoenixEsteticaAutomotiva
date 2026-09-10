@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidade — Phoenix Estética Automotiva</title>
+<meta name="description" content="Política de Privacidade da Phoenix Estética Automotiva: como coletamos, usamos e protegemos as informações fornecidas pelos clientes.">
+<meta name="robots" content="index, follow">
+<!-- [DOMÍNIO DO SITE] — substitua pela URL final do site assim que o domínio for definido -->
+<link rel="canonical" href="[DOMÍNIO DO SITE]/politica-privacidade.html">
+<link rel="icon" type="image/png" href="logo-phoenix.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black-deep:   #050505;
+  --graphite:     #141010;
+  --graphite-2:   #1C1414;
+  --fire-red:     #E52316;
+  --red-intense:  #B80F0A;
+  --fire-orange:  #FF5A00;
+  --gold:         #FFD400;
+  --gold-light:   #FFE066;
+  --gold-dim:     #C9A600;
+  --warm-white:   #FFFFFF;
+  --warm-white-60:rgba(255,255,255,.65);
+  --warm-white-30:rgba(255,255,255,.32);
+  --line:         rgba(229,35,22,.24);
+
+  --font-display: 'Oswald', sans-serif;
+  --font-impact:  'Bebas Neue', sans-serif;
+  --font-body:    'Montserrat', sans-serif;
+
+  --container: 1200px;
+  --radius: 2px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  background:var(--black-deep);
+  color:var(--warm-white);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; cursor:pointer; }
+h1,h2,h3,h4{ margin:0; font-family:var(--font-display); font-weight:600; letter-spacing:.01em; }
+p{ margin:0; }
+
+:focus-visible{ outline:2px solid var(--gold-light); outline-offset:3px; }
+
+.container{ max-width:var(--container); margin:0 auto; padding:0 28px; }
+
+/* Botões */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:16px 30px; font-family:var(--font-body); font-weight:700; font-size:.86rem;
+  letter-spacing:.06em; text-transform:uppercase; border-radius:var(--radius);
+  border:1px solid transparent;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
+  white-space:nowrap;
+}
+.btn--sm{ padding:11px 20px; font-size:.76rem; }
+.btn--primary{
+  background:linear-gradient(135deg, var(--fire-orange), var(--fire-red) 60%, var(--red-intense));
+  color:var(--warm-white);
+  box-shadow:0 10px 30px -12px rgba(229,35,22,.6);
+}
+.btn--primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -12px rgba(255,90,0,.65); }
+
+/* Header */
+.header{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:18px 0;
+  background:rgba(5,5,5,.7);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid transparent;
+  transition:background .35s var(--ease), border-color .35s var(--ease), padding .35s var(--ease);
+}
+.header.is-scrolled{ background:rgba(5,5,5,.92); border-color:var(--line); padding:12px 0; }
+.header__inner{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.brand{ display:flex; align-items:center; gap:12px; flex:none; }
+.brand__mark{ width:38px; height:44px; flex:none; }
+.brand__mark svg{ width:100%; height:100%; overflow:visible; }
+.brand__mark--logo{ width:64px; height:64px; }
+.brand__mark--logo img{ width:100%; height:100%; object-fit:contain; display:block; }
+.brand__shield{ fill:rgba(255,212,0,.08); stroke:var(--gold); stroke-width:1.4; }
+.brand__shield-inner{ fill:none; stroke:var(--gold-light); stroke-width:.7; opacity:.7; }
+.brand__monogram{ font-family:var(--font-display); font-weight:700; font-size:20px; fill:var(--gold-light); }
+.brand__name{ display:flex; flex-direction:column; line-height:1.15; }
+.brand__title{ font-family:var(--font-display); font-size:1.02rem; letter-spacing:.02em; color:var(--warm-white); }
+.brand__tag{ font-size:.62rem; letter-spacing:.22em; color:var(--gold-dim); font-weight:700; margin-top:3px; }
+.header__cta{ flex:none; }
+
+/* Conteúdo legal */
+.legal{ padding:150px 0 100px; }
+.legal__head{ max-width:760px; margin:0 auto 56px; text-align:center; }
+.legal__eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:.76rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--gold-light); margin-bottom:20px;
+}
+.legal__eyebrow::before{ content:''; width:28px; height:1px; background:var(--gold-dim); }
+.legal__title{ font-size:2.4rem; color:var(--warm-white); margin-bottom:14px; }
+.legal__updated{ font-size:.85rem; color:var(--warm-white-30); font-style:italic; }
+
+.legal__body{
+  max-width:760px; margin:0 auto;
+  background:var(--graphite);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:56px 60px;
+}
+.legal__body h2{
+  font-size:1.15rem; color:var(--gold-light); letter-spacing:.02em;
+  margin-top:38px; margin-bottom:14px;
+}
+.legal__body h2:first-child{ margin-top:0; }
+.legal__body p{ font-size:.95rem; color:var(--warm-white-60); line-height:1.75; margin-bottom:14px; }
+.legal__body ul{ margin:0 0 14px; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+.legal__body ul li{
+  font-size:.95rem; color:var(--warm-white-60); line-height:1.6;
+  padding-left:20px; position:relative;
+}
+.legal__body ul li::before{
+  content:''; position:absolute; left:0; top:.65em;
+  width:6px; height:6px; border-radius:50%; background:var(--gold-light);
+}
+.legal__body strong{ color:var(--warm-white); font-weight:700; }
+
+.legal__back{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-bottom:32px; margin-left:auto; margin-right:auto;
+  font-size:.78rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--warm-white-60); transition:color .3s var(--ease), gap .3s var(--ease);
+}
+.legal__back:hover{ color:var(--gold-light); gap:11px; }
+.legal__back svg{ width:15px; height:15px; }
+.legal__back-wrap{ max-width:760px; margin:0 auto; }
+
+/* Footer */
+.footer{ background:var(--black-deep); border-top:1px solid var(--line); padding-top:64px; }
+.footer__grid{ display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:40px; padding-bottom:40px; }
+.footer__brand .brand{ margin-bottom:18px; }
+.footer__brand p{ font-size:.9rem; color:var(--warm-white-60); line-height:1.6; }
+.footer__col h4{ font-family:var(--font-body); font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:20px; font-weight:700; }
+.footer__col a{ display:block; font-size:.9rem; color:var(--warm-white-60); margin-bottom:13px; transition:color .3s var(--ease); }
+.footer__col a:hover{ color:var(--gold-light); }
+.social-icons{ display:flex; gap:12px; }
+.social-icons a{ width:38px; height:38px; border:1px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0; }
+.social-icons svg{ width:17px; height:17px; }
+.footer__bottom{ display:flex; justify-content:space-between; padding:24px 28px; border-top:1px solid var(--line); font-size:.8rem; color:var(--warm-white-30); }
+.footer__watermark{
+  text-align:center;
+  padding:12px 0;
+  font-size:.68rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.16);
+  background:var(--black-deep);
+  border-top:1px solid rgba(255,255,255,.05);
+}
+.footer__bottom a{ color:inherit; transition:color .3s var(--ease); }
+.footer__bottom a:hover{ color:var(--gold-light); }
+.footer__bottom-links{ display:flex; gap:20px; }
+
+@media (max-width:860px){
+  .footer__grid{ grid-template-columns:1fr 1fr; }
+  .legal__body{ padding:40px 28px; }
+  .legal__title{ font-size:1.9rem; }
+}
+@media (max-width:600px){
+  .footer__grid{ grid-template-columns:1fr; }
+  .footer__bottom{ flex-direction:column; gap:10px; text-align:center; }
+  .legal{ padding:130px 0 70px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="index.html#hero" class="brand">
+      <span class="brand__mark brand__mark--logo" aria-hidden="true">
+        <img src="logo-phoenix.png" alt="Phoenix — Auto Detailing">
+      </span>
+      <span class="brand__name">
+        <span class="brand__title">Phoenix</span>
+        <span class="brand__tag">ESTÉTICA&nbsp;AUTOMOTIVA</span>
+      </span>
+    </a>
+
+    <a href="https://wa.me/555596824077?text=Ol%C3%A1!%20Quero%20agendar%20um%20hor%C3%A1rio%20na%20Phoenix." target="_blank" rel="noopener" class="btn btn--primary btn--sm header__cta">Agendar Serviço</a>
+  </div>
+</header>
+
+<!-- ===== POLÍTICA DE PRIVACIDADE ===== -->
+<section class="legal">
+  <div class="container">
+
+    <div class="legal__back-wrap">
+      <a href="index.html" class="legal__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Voltar ao site
+      </a>
+    </div>
+
+    <div class="legal__head">
+      <span class="legal__eyebrow">Legal</span>
+      <h1 class="legal__title">Política de Privacidade</h1>
+      <span class="legal__updated">Última atualização: 31 de agosto de 2026</span>
+    </div>
+
+    <div class="legal__body">
+      <p>A sua privacidade é importante para nós. Esta Política de Privacidade explica como as informações fornecidas pelos usuários são coletadas, utilizadas e protegidas por meio deste site.</p>
+
+      <h2>1. Coleta de informações</h2>
+      <p>Podemos coletar informações pessoais fornecidas voluntariamente pelo usuário por meio de formulários disponíveis no site, tais como:</p>
+      <ul>
+        <li>Nome;</li>
+        <li>Número de telefone ou WhatsApp;</li>
+        <li>Outras informações fornecidas voluntariamente pelo usuário durante o contato.</li>
+      </ul>
+      <p>Coletamos apenas as informações necessárias para realizar o atendimento e responder às solicitações enviadas pelo usuário.</p>
+
+      <h2>2. Como utilizamos suas informações</h2>
+      <p>As informações fornecidas poderão ser utilizadas para:</p>
+      <ul>
+        <li>Entrar em contato com o usuário;</li>
+        <li>Responder dúvidas e solicitações;</li>
+        <li>Realizar atendimentos solicitados;</li>
+        <li>Enviar informações relacionadas aos serviços ou produtos de interesse, quando aplicável;</li>
+        <li>Melhorar a experiência de navegação e atendimento.</li>
+      </ul>
+      <p>Não utilizamos os dados pessoais para finalidades incompatíveis com aquelas informadas nesta Política.</p>
+
+      <h2>3. Compartilhamento de dados</h2>
+      <p>As informações fornecidas pelos usuários não são vendidas ou comercializadas.</p>
+      <p>Os dados poderão ser compartilhados apenas quando necessário para a realização do atendimento, cumprimento de obrigações legais ou utilização de ferramentas e serviços essenciais para o funcionamento do site.</p>
+
+      <h2>4. Segurança das informações</h2>
+      <p>Adotamos medidas técnicas e organizacionais razoáveis para proteger as informações pessoais contra acessos não autorizados, alterações, divulgação ou destruição indevida.</p>
+      <p>No entanto, nenhum sistema de transmissão ou armazenamento de dados na internet é completamente seguro. Por isso, embora adotemos medidas de proteção, não é possível garantir segurança absoluta.</p>
+
+      <h2>5. Cookies e tecnologias semelhantes</h2>
+      <p>Este site poderá utilizar cookies e tecnologias semelhantes para melhorar a experiência do usuário, analisar informações de navegação e contribuir para o funcionamento adequado do site.</p>
+      <p>O usuário poderá configurar seu navegador para recusar ou remover cookies, podendo, porém, afetar algumas funcionalidades do site.</p>
+
+      <h2>6. Direitos do usuário</h2>
+      <p>De acordo com a legislação aplicável, especialmente a Lei Geral de Proteção de Dados Pessoais (<strong>LGPD</strong>), o usuário poderá solicitar informações sobre o tratamento de seus dados pessoais, bem como solicitar a correção, atualização ou exclusão de dados, quando aplicável.</p>
+      <p>Para realizar uma solicitação relacionada aos seus dados pessoais, entre em contato pelos canais de atendimento disponibilizados neste site.</p>
+
+      <h2>7. Alterações nesta Política</h2>
+      <p>Esta Política de Privacidade poderá ser atualizada periodicamente para refletir alterações nos serviços oferecidos, no funcionamento do site ou na legislação aplicável.</p>
+      <p>Recomendamos que o usuário consulte esta página regularmente.</p>
+
+      <h2>8. Contato</h2>
+      <p>Caso tenha dúvidas sobre esta Política de Privacidade ou sobre o tratamento de suas informações pessoais, entre em contato conosco por meio dos canais de atendimento disponíveis neste site.</p>
+      <p>Ao utilizar este site e fornecer voluntariamente suas informações, o usuário declara estar ciente das condições apresentadas nesta Política de Privacidade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href="index.html" class="brand">
+        <span class="brand__mark brand__mark--logo" aria-hidden="true">
+          <img src="logo-phoenix.png" alt="Phoenix — Auto Detailing">
+        </span>
+        <span class="brand__name">
+          <span class="brand__title">Phoenix</span>
+          <span class="brand__tag">ESTÉTICA&nbsp;AUTOMOTIVA</span>
+        </span>
+      </a>
+      <p>O detalhe define o resultado.<br>Seu carro merece mais que uma simples lavagem.</p>
+    </div>
+
+    <div class="footer__col">
+      <h4>Links Rápidos</h4>
+      <a href="index.html#hero">Início</a>
+      <a href="index.html#servicos">Serviços</a>
+      <a href="index.html#sobre">Sobre</a>
+      <a href="index.html#galeria">Galeria</a>
+      <a href="index.html#contato">Contato</a>
+    </div>
+
+    <div class="footer__col footer__social">
+      <h4>Siga a Phoenix</h4>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/phoenix_estetica_automotiva/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 8h-2a2 2 0 00-2 2v10M8 13h6"/><circle cx="12" cy="12" r="9"/></svg>
+        </a>
+        <a href="#" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-5.8 7-12a7 7 0 10-14 0c0 6.2 7 12 7 12z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <span>© 2026 Phoenix. Todos os direitos reservados.</span>
+    <div class="footer__bottom-links">
+      <a href="politica-privacidade.html">Política de Privacidade</a>
+      <span>Desenvolvido por JMG Service</span>
+    </div>
+  </div>
+  <div class="footer__watermark">production by JMG Services</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.getElementById('header');
+  const onScroll = () => {
+    if (window.scrollY > 24) header.classList.add('is-scrolled');
+    else header.classList.remove('is-scrolled');
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+});
+</script>
+</body>
+</html>

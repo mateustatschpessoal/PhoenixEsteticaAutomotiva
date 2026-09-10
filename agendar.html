@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agendar Horário — Phoenix Estética Automotiva</title>
+<meta name="description" content="Agende online seu horário na Phoenix Estética Automotiva em São Luiz Gonzaga - RS. Escolha o serviço, o dia e o horário de entrada do veículo.">
+<meta name="robots" content="index, follow">
+<!-- [DOMÍNIO DO SITE] — substitua pela URL final do site assim que o domínio for definido -->
+<link rel="canonical" href="[DOMÍNIO DO SITE]/agendar.html">
+<link rel="icon" type="image/png" href="logo-phoenix.png">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#050505; --black-soft:#0D0D0D; --graphite:#141414; --graphite-2:#1a1a1a;
+  --red-fire:#E52316; --red-deep:#B80F0A; --orange-fire:#FF5A00; --gold:#FFD400;
+  --white:#FFFFFF; --white-60:rgba(255,255,255,.6); --line:rgba(255,90,0,.22);
+  --danger:#E52316; --ok:#5cb85c;
+  --font-display:'Oswald',sans-serif; --font-body:'Manrope',sans-serif;
+  --flame-grad: linear-gradient(115deg, var(--gold) 0%, var(--orange-fire) 45%, var(--red-fire) 80%, var(--red-deep) 100%);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--black);color:var(--white);font-family:var(--font-body);padding:0 20px 60px;}
+.wrap{max-width:640px;margin:0 auto;}
+.topbar{max-width:640px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:22px 0 30px;}
+.topbar__back{display:inline-flex;align-items:center;gap:6px;color:var(--white-60);text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.02em;transition:color .2s;}
+.topbar__back:hover{color:var(--gold);}
+.topbar__back svg{width:16px;height:16px;}
+.topbar__brand{display:flex;align-items:center;gap:9px;color:var(--white);text-decoration:none;font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:.1em;text-transform:uppercase;}
+.topbar__brand svg{width:22px;height:auto;flex-shrink:0;}
+h1{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:1.9rem;margin:0 0 6px;letter-spacing:.01em;}
+.sub{color:var(--white-60);font-size:.92rem;margin-bottom:32px;}
+.step{display:none;}
+.step.is-active{display:block;}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px;}
+.svc{border:1px solid var(--line);border-radius:2px;padding:16px;background:var(--graphite);cursor:pointer;transition:border-color .2s,transform .2s;}
+.svc:hover{border-color:var(--orange-fire);transform:translateY(-2px);}
+.svc__name{font-weight:700;font-size:.95rem;margin-bottom:8px;}
+.svc__badge{display:inline-block;font-size:.68rem;letter-spacing:.02em;text-transform:none;padding:3px 8px;border-radius:2px;font-weight:700;}
+.svc__badge--duration{background:rgba(255,212,0,.12);color:var(--gold);}
+.svc__duration{display:flex;align-items:center;gap:8px;border:1px solid var(--line);padding:14px 16px;border-radius:2px;margin-bottom:16px;background:var(--graphite);}
+.svc__duration svg{width:18px;height:18px;flex-shrink:0;color:var(--gold);}
+.svc__duration div strong{display:block;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--white-60);font-weight:700;margin-bottom:2px;}
+.svc__duration div span{font-size:.9rem;font-weight:700;}
+.back{background:none;border:none;color:var(--gold);font-weight:700;cursor:pointer;margin-bottom:20px;font-size:.85rem;padding:0;}
+label{display:block;font-size:.78rem;color:var(--white-60);margin-bottom:6px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+input,.field{width:100%;padding:12px 14px;background:var(--graphite);border:1px solid var(--line);color:var(--white);border-radius:2px;margin-bottom:16px;font-family:inherit;font-size:.92rem;}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.slot{padding:12px 8px;text-align:center;border:1px solid var(--line);border-radius:2px;cursor:pointer;font-size:.85rem;font-weight:700;}
+.slot.is-full{opacity:.35;cursor:not-allowed;text-decoration:line-through;}
+.slot.is-selected{border-color:var(--orange-fire);background:rgba(255,90,0,.12);color:var(--gold);}
+.slot small{display:block;font-weight:400;color:var(--white-60);margin-top:2px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;font-family:var(--font-display);font-weight:600;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;border-radius:2px;border:none;cursor:pointer;text-decoration:none;}
+.btn--primary{background:var(--flame-grad);color:var(--black);}
+.btn--primary:disabled{opacity:.4;cursor:not-allowed;}
+.btn--whatsapp{background:#25D366;color:#052e14;}
+.notice{border:1px solid var(--line);padding:14px 16px;border-radius:2px;font-size:.88rem;color:var(--white-60);margin-bottom:20px;line-height:1.6;}
+.notice--warning{border-color:var(--red-fire);background:rgba(229,35,22,.08);color:var(--white);display:flex;gap:12px;align-items:flex-start;}
+.notice--warning svg{width:22px;height:22px;flex-shrink:0;color:var(--red-fire);margin-top:1px;}
+.notice--warning strong{display:block;color:var(--gold);font-weight:700;margin-bottom:4px;font-size:.82rem;letter-spacing:.02em;text-transform:uppercase;}
+.notice--warning p{margin:0;font-size:.85rem;line-height:1.55;color:var(--white-60);}
+.confirm{border:1px solid var(--line);padding:24px;border-radius:2px;text-align:center;}
+.confirm h2{font-family:var(--font-display);text-transform:uppercase;color:var(--gold);margin-bottom:10px;letter-spacing:.02em;}
+.notify-owner{margin-top:20px;border:1px solid var(--line);padding:20px;border-radius:2px;text-align:center;}
+.notify-owner h3{font-family:var(--font-display);font-size:1rem;color:var(--gold);margin:0 0 6px;text-transform:uppercase;letter-spacing:.05em;}
+.notify-owner p{color:var(--white-60);font-size:.86rem;margin:0 0 16px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html#topo" class="topbar__brand">
+    <svg viewBox="0 0 60 68" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M30 2C22 16 13 28 15 43C16.5 54 24 62 30 66C36 62 43.5 54 45 43C47 28 38 16 30 2Z" stroke="url(#flameGradBooking)" stroke-width="2.4"/>
+      <defs>
+        <linearGradient id="flameGradBooking" x1="15" y1="2" x2="45" y2="66" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FFD400"/>
+          <stop offset="0.5" stop-color="#FF5A00"/>
+          <stop offset="1" stop-color="#E52316"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    Phoenix
+  </a>
+  <a href="index.html#localizacao" class="topbar__back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Voltar ao site
+  </a>
+</div>
+<div class="wrap">
+  <h1>Agendar horário</h1>
+  <p class="sub">Escolha o serviço e o horário de entrada do veículo — todo o agendamento é feito direto aqui pelo site. Atendemos de segunda a sexta das 13h às 16h e aos sábados das 9h às 12h. Cada horário atende 1 veículo por vez; a duração de cada serviço varia conforme o trabalho e pode se estender além do horário de entrada — combinamos a retirada com você.</p>
+
+  <!-- ETAPA 1: serviço -->
+  <div class="step is-active" id="step-service">
+    <div class="card-grid" id="serviceList"></div>
+  </div>
+
+  <!-- ETAPA 2a: agendamento no site (data + slot) -->
+  <div class="step" id="step-site">
+    <button class="back" data-back>&larr; Trocar serviço</button>
+    <label>Serviço selecionado</label>
+    <div class="field" id="siteServiceLabel"></div>
+    <div class="svc__duration" id="siteServiceDuration">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <div><strong>Duração estimada</strong><span id="siteServiceDurationText"></span></div>
+    </div>
+    <label for="date">Data</label>
+    <input type="date" id="date">
+    <div id="slotsWrap"></div>
+    <label for="name">Nome</label>
+    <input type="text" id="name" placeholder="Seu nome">
+    <label for="phone">Telefone/WhatsApp</label>
+    <input type="tel" id="phone" placeholder="(00) 9....-....">
+
+    <div class="notice notice--warning">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L14.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>
+      <p><strong>Tolerância de atraso: 20 minutos</strong>Se você atrasar e não avisar pelo WhatsApp dentro de 20 minutos após o horário de entrada, o agendamento será cancelado automaticamente e a vaga será liberada para outro cliente. Se atrasar, avise-nos o quanto antes para garantirmos seu horário.</p>
+    </div>
+
+    <button class="btn btn--primary" id="confirmBtn" disabled>Confirmar agendamento</button>
+  </div>
+
+  <!-- ETAPA 3: confirmação — aqui entra a mensagem de WhatsApp no lugar do PIX -->
+  <div class="step" id="step-confirm">
+    <div class="confirm">
+      <h2>Agendamento confirmado</h2>
+      <p id="confirmText"></p>
+    </div>
+    <div class="notify-owner">
+      <h3>Avise a Phoenix</h3>
+      <p>Envie uma mensagem para a Phoenix com os detalhes do seu agendamento — assim a equipe já separa o horário pra você.</p>
+      <a class="btn btn--whatsapp" id="ownerNotifyLink" target="_blank" rel="noopener">💬 Avisar pelo WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+ * MOCK DE BACKEND (localStorage).
+ * ATENÇÃO — limitação importante: localStorage é salvo só
+ * no navegador/aparelho de cada cliente. Isso quer dizer que
+ * um horário lotado por um cliente no celular dele NÃO some
+ * pra outro cliente em outro celular — cada aparelho tem sua
+ * própria "contagem". Serve pra não perder o controle enquanto
+ * o mesmo cliente navega no site, mas não substitui um banco
+ * de dados real compartilhado entre todo mundo.
+ * Em produção troque por chamadas reais à API (ver
+ * booking-logic.js), que revalida a vaga dentro de uma
+ * transação no servidor para evitar overbooking de verdade.
+ *
+ * Sem etapa de pagamento: ao confirmar, o agendamento já nasce
+ * com status 'confirmado' — a única coisa que falta é o cliente
+ * clicar em "Avisar pelo WhatsApp" para a Phoenix ficar sabendo.
+ * =======================================================*/
+const SERVICES = [
+  { id:'lavagem-trad-hatch-sedan-pequeno', name:'Lavagem Tradicional — Hatch / Sedã Pequeno', durationLabel:'3h – 4h30' },
+  { id:'lavagem-trad-sedan-grande-picape-media', name:'Lavagem Tradicional — Sedã Grande / Picape Média', durationLabel:'3h – 4h30' },
+  { id:'lavagem-trad-suv-camionete', name:'Lavagem Tradicional — SUV / Camionete Grande', durationLabel:'3h – 4h30' },
+  { id:'lavagem-comercial-cera', name:'Lavagem Comercial com Cera', durationLabel:'Duração a confirmar' },
+  { id:'lavagem-comercial-descontaminacao-selante', name:'Lavagem Comercial com Descontaminação e Selante', durationLabel:'4h – 6h' },
+  { id:'lavagem-comercial-descontaminacao-encerramento', name:'Lavagem Comercial com Descontaminação e Encerramento', durationLabel:'Duração a confirmar' },
+  { id:'higienizacao-interna-tecido', name:'Higienização Interna — Estofamento em Tecido', durationLabel:'1 a 2 dias (conforme o nível de sujidade)' },
+  { id:'higienizacao-interna-couro', name:'Higienização Interna — Estofamento em Couro', durationLabel:'5h – 7h' },
+  { id:'combo-bronze', name:'Combo Bronze — Lavagem Tradicional + Higienização Interna', durationLabel:'Duração a confirmar' },
+  { id:'combo-prata', name:'Combo Prata — Lavagem Comercial + Higienização + Detalhamento', durationLabel:'Duração a confirmar' },
+  { id:'combo-ouro', name:'Combo Ouro — Lavagem Comercial + Higienização de Interiores', durationLabel:'Duração a confirmar' },
+];
+/* Capacidade única: 1 veículo por horário de entrada, em todos os serviços —
+ * é uma baia só. Os horários são gerados a partir do EXPEDIENTE abaixo e
+ * representam o horário de ENTRADA do veículo, não o horário em que o
+ * serviço termina — serviços mais longos (ver durationLabel de cada um)
+ * podem se estender além do expediente do dia; a retirada é combinada
+ * diretamente com o cliente. */
+const SLOT_STEP_MINUTES = 60;
+const SLOT_CAPACITY = 1;
+
+/* =========================================================
+ * EXPEDIENTE DA PHOENIX
+ * Segunda a sexta: 13h às 16h · Sábado: 9h às 12h · Domingo: fechado.
+ * =======================================================*/
+function getWorkingWindow(dateStr){
+  const day = new Date(`${dateStr}T00:00:00`).getDay(); // 0=Dom ... 6=Sáb
+  if (day === 0) return null;               // domingo: fechado
+  if (day === 6) return { start:'09:00', end:'12:00' }; // sábado
+  return { start:'13:00', end:'16:00' };    // segunda a sexta
+}
+function timeToMinutes(t){ const [h,m] = t.split(':').map(Number); return h*60+m; }
+function minutesToTime(mins){ const h=String(Math.floor(mins/60)).padStart(2,'0'); const m=String(mins%60).padStart(2,'0'); return `${h}:${m}`; }
+function generateSlots(dateStr, stepMinutes){
+  const win = getWorkingWindow(dateStr);
+  if (!win) return [];
+  const startM = timeToMinutes(win.start);
+  const endM = timeToMinutes(win.end);
+  const slots = [];
+  for (let t = startM; t < endM; t += stepMinutes) slots.push(minutesToTime(t));
+  return slots;
+}
+
+/* =========================================================
+ * CONFIGURAÇÃO CENTRAL DA ESTÉTICA
+ * Único lugar do arquivo com dados específicos deste cliente.
+ * Em produção (ex.: Next.js) isso vira uma env var:
+ *   NEXT_PUBLIC_WHATSAPP_ESTETICA=5500000000000
+ * lida via process.env.NEXT_PUBLIC_WHATSAPP_ESTETICA.
+ * =======================================================*/
+const CONFIG = {
+  empresaNome: 'Phoenix Estética Automotiva',
+  whatsappEstetica: '5500000000000', // [PLACEHOLDER] substitua pelo WhatsApp real da Phoenix, número do PROPRIETÁRIO
+};
+
+function getAppointments(){ return JSON.parse(localStorage.getItem('phoenix_appointments')||'[]'); }
+function saveAppointment(a){ const all=getAppointments(); all.push(a); localStorage.setItem('phoenix_appointments', JSON.stringify(all)); }
+function countConfirmed(date, slotTime){
+  return getAppointments().filter(a=>a.date===date && a.slotTime===slotTime && a.status==='confirmado').length;
+}
+
+let state = { service:null, slot:null };
+
+function renderServices(){
+  const list = document.getElementById('serviceList');
+  list.innerHTML='';
+  SERVICES.forEach(s=>{
+    const el=document.createElement('div');
+    el.className='svc';
+    el.innerHTML = `<div class="svc__name">${s.name}</div>
+      <span class="svc__badge svc__badge--duration">⏱ ${s.durationLabel}</span>`;
+    el.onclick=()=>selectService(s);
+    list.appendChild(el);
+  });
+}
+
+function goToStep(id){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('is-active'));
+  document.getElementById(id).classList.add('is-active');
+}
+
+function selectService(s){
+  state.service = s;
+  document.getElementById('siteServiceLabel').textContent = s.name;
+  document.getElementById('siteServiceDurationText').textContent = s.durationLabel;
+  const dateInput = document.getElementById('date');
+  dateInput.min = new Date().toISOString().slice(0,10);
+  dateInput.value = dateInput.min;
+  renderSlots();
+  dateInput.onchange = renderSlots;
+  goToStep('step-site');
+}
+
+function renderSlots(){
+  const date = document.getElementById('date').value;
+  const wrap = document.getElementById('slotsWrap');
+  const slotTimes = generateSlots(date, SLOT_STEP_MINUTES);
+  state.slot = null;
+  updateConfirmState();
+
+  if (slotTimes.length === 0) {
+    wrap.innerHTML = '<div class="notice">Fechado nesse dia. Atendemos de segunda a sexta das 13h às 16h e aos sábados das 9h às 12h — escolha outra data.</div>';
+    return;
+  }
+
+  wrap.innerHTML = '<label>Horário de entrada</label><div class="slots" id="slotsGrid"></div>';
+  const grid = document.getElementById('slotsGrid');
+  slotTimes.forEach(slotTime=>{
+    const confirmed = countConfirmed(date, slotTime);
+    const vagas = SLOT_CAPACITY - confirmed;
+    const el = document.createElement('div');
+    el.className = 'slot' + (vagas<=0 ? ' is-full':'');
+    el.innerHTML = `${slotTime}<small>${vagas>0?'disponível':'lotado'}</small>`;
+    if (vagas>0){
+      el.onclick=()=>{
+        [...grid.children].forEach(c=>c.classList.remove('is-selected'));
+        el.classList.add('is-selected');
+        state.slot = slotTime;
+        updateConfirmState();
+      };
+    }
+    grid.appendChild(el);
+  });
+}
+
+function updateConfirmState(){
+  document.getElementById('confirmBtn').disabled = !state.slot;
+}
+
+document.getElementById('confirmBtn').onclick = ()=>{
+  const date = document.getElementById('date').value;
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  if (!name || !phone) { alert('Preencha nome e telefone.'); return; }
+
+  // Revalidação de última hora (o backend real faz isso dentro de uma transação)
+  const confirmed = countConfirmed(date, state.slot);
+  if (confirmed >= SLOT_CAPACITY) {
+    alert('Esse horário acabou de lotar. Escolha outro.');
+    renderSlots();
+    return;
+  }
+
+  // Sem etapa de pagamento: o agendamento já nasce confirmado.
+  const appointment = { date, slotTime: state.slot, serviceId: state.service.id, name, phone, status:'confirmado' };
+  saveAppointment(appointment);
+
+  const [y,m,d] = date.split('-');
+  document.getElementById('confirmText').textContent =
+    `${state.service.name} — entrada em ${d}/${m}/${y} às ${state.slot}. Duração estimada: ${state.service.durationLabel}.`;
+  document.getElementById('ownerNotifyLink').href = buildOwnerNotificationUrl(appointment);
+  goToStep('step-confirm');
+};
+
+document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>goToStep('step-service'));
+
+/* =========================================================
+ * NOTIFICAÇÃO DA PHOENIX APÓS AGENDAMENTO PELO SITE
+ * Chamada só DEPOIS que o agendamento já foi salvo com sucesso.
+ * Não envia nada sozinha — apenas monta o link click-to-chat;
+ * quem decide enviar é o cliente, clicando no botão. É esta
+ * etapa que substitui o pagamento de adiantamento via PIX.
+ * =======================================================*/
+function buildOwnerNotificationMessage({ name, phone, serviceId, date, slotTime }){
+  const service = SERVICES.find(s=>s.id===serviceId);
+  const [y,m,d] = date.split('-');
+  const linhas = [
+    'Olá! Novo agendamento realizado pelo site.',
+    '',
+    `👤 Cliente: ${name}`,
+    `📱 WhatsApp: ${phone}`,
+    '',
+    `🔥 Serviço: ${service ? service.name : serviceId}`,
+    `📅 Data de entrada: ${d}/${m}/${y}`,
+    `🕐 Horário de entrada: ${slotTime}`,
+    `⏱ Duração estimada: ${service ? service.durationLabel : 'a confirmar'}`,
+    '',
+    'O agendamento foi realizado pelo sistema do site.',
+  ];
+  return linhas.join('\n');
+}
+function buildOwnerNotificationUrl(appointment){
+  const mensagem = buildOwnerNotificationMessage(appointment);
+  return `https://wa.me/${CONFIG.whatsappEstetica}?text=${encodeURIComponent(mensagem)}`;
+}
+
+renderServices();
+</script>
+</body>
+</html>
