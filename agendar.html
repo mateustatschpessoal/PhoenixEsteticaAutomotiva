@@ -37,6 +37,7 @@ h1{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font
 .svc:hover{border-color:var(--orange-fire);transform:translateY(-2px);}
 .svc.is-selected{border-color:var(--orange-fire);background:rgba(255,90,0,.08);}
 .svc__name{font-weight:700;font-size:.95rem;margin-bottom:8px;}
+.svc__desc{font-size:.78rem;color:var(--white-60);margin:-4px 0 10px;line-height:1.4;}
 .svc__badge{display:inline-block;font-size:.68rem;letter-spacing:.02em;text-transform:none;padding:3px 8px;border-radius:2px;font-weight:700;}
 .svc__badge--duration{background:rgba(255,212,0,.12);color:var(--gold);}
 .svc__badge--price{background:rgba(255,255,255,.08);color:var(--white);margin-left:6px;}
@@ -180,8 +181,10 @@ const SERVICES = [
   { id:'combo-bronze', name:'Combo Bronze — Lavagem Tradicional + Higienização Interna', durationLabel:'Duração a confirmar', price:550.00 },
   { id:'combo-prata', name:'Combo Prata — Lavagem Comercial + Higienização + Detalhamento', durationLabel:'Duração a confirmar', price:600.00 },
   { id:'combo-ouro', name:'Combo Ouro — Lavagem Comercial + Higienização de Interiores', durationLabel:'Duração a confirmar', price:650.00 },
-  { id:'vitrificacao-plastico-ext-int', name:'Vitrificação de Plástico Externo e Interno', durationLabel:'Duração a confirmar', price:149.90 },
-  { id:'revitalizacao-plastico-condicionador', name:'Revitalização de Plástico com Condicionador para Plástico', durationLabel:'Duração a confirmar', price:129.90 },
+  { id:'vitrificacao-plastico-ext-int', name:'Pacote Completo', desc:'Vitrificação de plástico externo e interno', durationLabel:'Duração a confirmar', price:180.00 },
+  { id:'revitalizacao-plastico-interno', name:'Revitalização de Plástico Interno', durationLabel:'Duração a confirmar', price:65.00 },
+  { id:'revitalizacao-plastico-externo', name:'Revitalização de Plástico Externo', durationLabel:'Duração a confirmar', price:65.00 },
+  { id:'revitalizacao-plastico-combo', name:'Pacote Completo', desc:'Revitalização de Plástico Interno e Externo', durationLabel:'Duração a confirmar', price:129.90 },
 ];
 /* Capacidade única: 1 veículo por horário de entrada, em todos os serviços —
  * é uma baia só. Os horários são gerados a partir do EXPEDIENTE abaixo e
@@ -245,6 +248,7 @@ function renderServices(){
     const el=document.createElement('div');
     el.className='svc'+(qty>0?' is-selected':'');
     el.innerHTML = `<div class="svc__name">${s.name}</div>
+      ${s.desc ? `<div class="svc__desc">${s.desc}</div>` : ''}
       <span class="svc__badge svc__badge--duration">⏱ ${s.durationLabel}</span>
       ${s.price!=null ? `<span class="svc__badge svc__badge--price">R$ ${s.price.toFixed(2).replace('.',',')}</span>` : ''}
       <div class="svc__qty">
